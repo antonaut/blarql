@@ -1,0 +1,19 @@
+{
+	"name": "blarql",
+	"version": "0.0.1",
+	"description": "a tiny webserver for making sparql queries",
+	"licence": "MIT",
+	"author": {
+		"name": "Anton Erholt",
+		"email": "aerholt@kth.se",
+	},
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/antonaut/blarql.git"
+	},
+	"dependencies": {
+		"express": "latest",
+		"sparql-client": "latest",
+		"body-parser": "latest",
+	},
+}
