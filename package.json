@@ -5,15 +5,15 @@
 	"licence": "MIT",
 	"author": {
 		"name": "Anton Erholt",
-		"email": "aerholt@kth.se",
+		"email": "aerholt@kth.se"
 	},
 	"repository": {
 		"type": "git",
 		"url": "http://github.com/antonaut/blarql.git"
 	},
 	"dependencies": {
-		"express": "latest",
-		"sparql-client": "latest",
-		"body-parser": "latest",
-	},
+		"express": "4.9.8",
+		"sparql-client": "0.1.0",
+		"body-parser": "1.9.0"
+	}
 }
