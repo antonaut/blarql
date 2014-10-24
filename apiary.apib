@@ -1,0 +1,97 @@
+FORMAT: 1A
+
+# BLARQL
+BLARQL API Shows how to use the BLARQL REST API Endpoint for querying dbpedia.
+
+
+## BLARQL Send Query [/blarql]
+### Send a SPARQL query to dbpedia [POST]
++ Request (application/json)
+        
+        {
+            query : "select distinct ?Concept where {[] a ?Concept} LIMIT 10"
+        }
+
++ Response 200 (application/json)
+
+        {
+            query : "select distinct ?Concept where {[] a ?Concept} LIMIT 10"
+            hash : "dc6326e01d260095bc2c726f169829d894af55fe"
+        }
+
++ Response 500
+
+        Bad Request
+        
+## BLARQL Get Query Result [/blarql/{hash}]
+### Gets the result of the query associated with hash [GET]
++ Parameters
+    + hash (required, sha1 hash) ... sha1 hash associated with the query sent earlier.
+    
++ Response 200 (application/json)
+        
+        {
+            "head": {
+                "vars": ["Concept"]
+            },
+            "results": {
+                "bindings": [{
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/film_distribution_medium"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/film_art_director"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/special_film_performance_type"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/oddlinker/interlink"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/film_screening_venue"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/film_festival"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/film_awards_ceremony"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/film_production_designer"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/personal_film_appearance"
+                    }
+                }, {
+                    "Concept": {
+                        "type": "uri",
+                        "value": "http://data.linkedmdb.org/resource/movie/film_collection"
+                    }
+                }]
+            }
+        }
+
++ Response 404
+    
+        Query not found.
+
+
+
