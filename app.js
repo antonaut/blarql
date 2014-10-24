@@ -60,9 +60,11 @@ app.post('/blarql', function(req, res) {
 	res.json({"query":req.body.query, "hash": digest});
 });
 
-app.get('/', function(req, res) {
+app.use(express.static(__dirname + '/client'));
+
+/*app.get('/', function(req, res) {
 	res.send('<h1>BLARQL de GIGA ANTON</h1>');
-});
+});*/
 
 
 app.listen(3000);
