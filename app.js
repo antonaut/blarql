@@ -29,6 +29,7 @@ var performSPARQLQuery = function(query, hash) {
 	prefixes += "PREFIX dbpedia: <http://dbpedia.org/>";
 	prefixes += "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>";
 	query = prefixes + query;
+	
 	//	console.log("Query to " + endpoint);
 	console.log("Hash: " + hash);
 	console.log("Query: " + query);
@@ -57,6 +58,7 @@ app.get('/blarql/:hash', function(req, res) {
 });
 
 app.post('/blarql', function(req, res) {
+	console.log(req);
 	var query = req.body.query;
 	if (!query) {
 		return res.status(400).send('Bad Request');
