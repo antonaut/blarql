@@ -156,7 +156,7 @@ function execSPARQL(request){
 function askForQueryResult(hash){
 	
 	var jsonTriples = JSON.parse(httpGet("/blarql/"+hash));
-	console.log(jsonTriples.errId);
+	//console.log(jsonTriples.errId);
 	if(jsonTriples.errId){
 		console.log("Result not ready");
 		setTimeout(function(){
@@ -164,36 +164,44 @@ function askForQueryResult(hash){
 		},1000);
 	}
 	else{
+		// LET'S CONTINUE THE PYRAMID OF DOOOOOM
 		console.log(jsonTriples);
+		var jGraph = parseJSON2RDF(jsonTriples);
+		// Go Julien
 	}
 }
+
+function webSem(text){
+	
+	var query = generateSPARQLRequest(text);
+	console.log(query);
+	var postBody = {
+		query : query
+	};	
+	//$.post('/blarql', {"query": JSON.stringify(query)}, function(data, textStatus, xhr) {
+	//	console.log(data);
+	//}, 'json');
+
+	$.ajax({
+		url: '/blarql',
+		dataType: 'json',
+		type: 'post',
+		contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify(postBody),
+		success: function( data, textStatus, jQxhr ){ 
+			console.log(data); 
+			askForQueryResult(data.hash);
+		}, 
+		error: function( jqXhr, textStatus, errorThrown ){
+			console.log( errorThrown );
+		}
+	});
+}
+
 
 $(document).ready(function($) {
 	$('#go').click(function(evt) {
 		var text = $('#text').val();
-		var query = generateSPARQLRequest(text);
-		console.log(query);
-		var postBody = {
-			query : query
-		};	
-		//$.post('/blarql', {"query": JSON.stringify(query)}, function(data, textStatus, xhr) {
-		//	console.log(data);
-		//}, 'json');
-
-		$.ajax({
-			url: '/blarql',
-			dataType: 'json',
-			type: 'post',
-			contentType: 'application/json; charset=utf-8',
-			data: JSON.stringify(postBody),
-			success: function( data, textStatus, jQxhr ){ 
-				console.log(data); 
-				askForQueryResult(data.hash);
-			}, 
-			error: function( jqXhr, textStatus, errorThrown ){
-				console.log( errorThrown );
-			}
-		});
-		
+		websem(text);	
 	});	
 });
