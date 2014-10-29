@@ -153,6 +153,21 @@ function execSPARQL(request){
 	return finalUrl;
 }
 
+function askForQueryResult(hash){
+	
+	var jsonTriples = JSON.parse(httpGet("/blarql/"+hash));
+	console.log(jsonTriples.errId);
+	if(jsonTriples.errId){
+		console.log("Result not ready");
+		setTimeout(function(){
+			askForQueryResult(hash);
+		},1000);
+	}
+	else{
+		console.log(jsonTriples);
+	}
+}
+
 $(document).ready(function($) {
 	$('#go').click(function(evt) {
 		var text = $('#text').val();
@@ -173,6 +188,7 @@ $(document).ready(function($) {
 			data: JSON.stringify(postBody),
 			success: function( data, textStatus, jQxhr ){ 
 				console.log(data); 
+				askForQueryResult(data.hash);
 			}, 
 			error: function( jqXhr, textStatus, errorThrown ){
 				console.log( errorThrown );
