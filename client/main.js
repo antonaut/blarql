@@ -9,7 +9,7 @@ function httpGet(theUrl)
 }
 
 function getResourcesList(text){
-	url = "http://spotlight.dbpedia.org/rest/annotate?text="+ encodeURIComponent(text);
+	url = "http://spotlight.dbpedia.org:80/rest/annotate?text="+ encodeURIComponent(text);
 	console.log(url);
 	var res = httpGet(url);
 	var el = document.createElement( 'div' );
@@ -17,9 +17,11 @@ function getResourcesList(text){
 	var resourceList = "(";
 	var resources = el.getElementsByTagName( 'a' ); // Live NodeList of your anchor elements
 	var s = "";
+	//console.log(res);
 	for(var i=0; i<resources.length;i++){
 		var a = resources[i];
-		s = a.attributes.href.firstChild.data;
+		console.log(a.attributes.href.value);
+		s = a.attributes.href.value;
 		resourceList+="<";
 		resourceList = resourceList.concat(s);
 		resourceList+=">";
@@ -156,8 +158,26 @@ $(document).ready(function($) {
 		var text = $('#text').val();
 		var query = generateSPARQLRequest(text);
 		console.log(query);
-		$.post('/blarql', {"query": JSON.stringify(query)}, function(data, textStatus, xhr) {
-			console.log(data);
-		}, 'json');
+		var postBody = {
+			query : query
+		};	
+		//$.post('/blarql', {"query": JSON.stringify(query)}, function(data, textStatus, xhr) {
+		//	console.log(data);
+		//}, 'json');
+
+		$.ajax({
+			url: '/blarql',
+			dataType: 'json',
+			type: 'post',
+			contentType: 'application/json; charset=utf-8',
+			data: JSON.stringify(postBody),
+			success: function( data, textStatus, jQxhr ){ 
+				console.log(data); 
+			}, 
+			error: function( jqXhr, textStatus, errorThrown ){
+				console.log( errorThrown );
+			}
+		});
+		
 	});	
 });
