@@ -81,6 +81,11 @@ app.post('/blarql', function(req, res) {
 	if (!queryResults[digest]) {
 		performSPARQLQuery(query, digest);
 	}
+ 	
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+
 	res.json({"query":req.body.query, "hash": digest});
 });
 

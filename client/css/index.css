@@ -1,0 +1,35 @@
+.node { font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif; fill: #bbb;
+}
+ 
+.node:hover { fill: #000;
+}
+ 
+.link { stroke: steelblue; stroke-opacity: .2; fill: none; pointer-events: none;
+}
+ 
+.node:hover, .node--source, .node--target { font-weight: 700; font-size: 18px;
+}
+ 
+.node--source { fill: #2ca02c;
+}
+ 
+.viewed {
+	font-color:red;
+	fill:red;
+}
+.too-deep {
+	font-color:red;
+	fill:red;
+	font-size:11px;
+}
+.node--target { fill: #d62728;
+}
+ 
+.link--source, .link--target { stroke-opacity: 1; stroke-width: 2px;
+}
+ 
+.link--source { stroke: #d62728;
+}
+ 
+.link--target { stroke: #2ca02c;
+}
