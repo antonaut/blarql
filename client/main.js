@@ -244,5 +244,7 @@ var QueryString = function () {
 var mainMethod = function(){
 	var keywords = decodeURIComponent(QueryString.keywords);
 	console.log(keywords);
-	websem(keywords);
+	if(keywords != "undefined"){
+		websem(keywords);
+	}
 }();
