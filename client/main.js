@@ -1,3 +1,4 @@
+// Executes a get request
 function httpGet(theUrl)
 {
     var xmlHttp = null;
@@ -8,16 +9,21 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
+// Gets a string that contains every rdf resources highlighted by DBPedia in "text"
 function getResourcesList(text){
+	// create the URL for the GET request to spotlight
 	url = "http://spotlight.dbpedia.org:80/rest/annotate?text="+ encodeURIComponent(text);
-	console.log(url);
+	//console.log(url);
+	
 	var res = httpGet(url);
 	var el = document.createElement( 'div' );
 	el.innerHTML = res;
-	var resourceList = "(";
+	//console.log(res);
+
 	var resources = el.getElementsByTagName( 'a' ); // Live NodeList of your anchor elements
 	var s = "";
-	//console.log(res);
+	var resourceList = "(";
+	// Harvest the a tags and process the href contents into a string
 	for(var i=0; i<resources.length;i++){
 		var a = resources[i];
 		console.log(a.attributes.href.value);
@@ -33,7 +39,7 @@ function getResourcesList(text){
 	return resourceList;
 }
 
-
+// Generates the resources list for "text" and concats it into a SPARQL request
 function generateSPARQLRequest(text){
 	var uriList = getResourcesList(text);
 	var sparqlRequest = "SELECT ?s ?p ?o WHERE { ?s ?p ?o. FILTER(?s in "+uriList+" && ?p not in (owl:sameAs) ).}";
@@ -41,33 +47,7 @@ function generateSPARQLRequest(text){
 	return sparqlRequest;
 }
 
-(function(console){
-
-console.save = function(data, filename){
-
-    if(!data) {
-        console.error('Console.save: No data')
-        return;
-    }
-
-    if(!filename) filename = 'console.json'
-
-    if(typeof data === "object"){
-        data = JSON.stringify(data, undefined, 4)
-    }
-
-    var blob = new Blob([data], {type: 'text/json'}),
-        e    = document.createEvent('MouseEvents'),
-        a    = document.createElement('a')
-
-    a.download = filename
-    a.href = window.URL.createObjectURL(blob)
-    a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
-    e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-    a.dispatchEvent(e)
- }
-})(console)
-
+// Parse the result of DBPedia SPARQL into an RDF-like graph
 function parseJSON2RDF(jsonObj){
 	var bindings = jsonObj.results.bindings;
 	
@@ -144,6 +124,7 @@ function parseJSON2RDF(jsonObj){
 	return sList;
 }
 
+// Not working : an attempt to execute a DBPedia SPARQL request as a GET request
 function execSPARQL(request){
 	var url = "http://dbpedia.org/sparql";
 	var argAfter = "&format=application%2Fsparql-results%2Bjson&timeout=30000&debug=on";
@@ -153,6 +134,7 @@ function execSPARQL(request){
 	return finalUrl;
 }
 
+// Ask the nodejs server if the sparql request is processed
 function askForQueryResult(hash){
 	
 	var jsonTriples = JSON.parse(httpGet("/blarql/"+hash));
@@ -171,7 +153,8 @@ function askForQueryResult(hash){
 	}
 }
 
-function webSem(text){
+// A kind of a main function that follows the websem process
+function websem(text){
 	
 	var query = generateSPARQLRequest(text);
 	console.log(query);
@@ -198,10 +181,38 @@ function webSem(text){
 	});
 }
 
-
+// Action called when clicking the "go button"
 $(document).ready(function($) {
 	$('#go').click(function(evt) {
 		var text = $('#text').val();
 		websem(text);	
 	});	
 });
+
+// Used for dev : a console hack that allows us to save an output as a file
+(function(console){
+
+console.save = function(data, filename){
+
+    if(!data) {
+        console.error('Console.save: No data')
+        return;
+    }
+
+    if(!filename) filename = 'console.json'
+
+    if(typeof data === "object"){
+        data = JSON.stringify(data, undefined, 4)
+    }
+
+    var blob = new Blob([data], {type: 'text/json'}),
+        e    = document.createEvent('MouseEvents'),
+        a    = document.createElement('a')
+
+    a.download = filename
+    a.href = window.URL.createObjectURL(blob)
+    a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+    e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+    a.dispatchEvent(e)
+ }
+})(console)
