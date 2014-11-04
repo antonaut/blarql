@@ -84,7 +84,7 @@ app.use(express.static(__dirname + '/client'));
 });*/
 
 
-app.listen(8888);
+app.listen(3000);
 
 
 
