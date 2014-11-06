@@ -67,14 +67,19 @@ function parseJSON2RDF(jsonObj){
 			}
 		}
 		if(!oc){
-			sList.push(o);
-			if(o.type === 'uri'){
-				o.name = o.value;
+			//console.log(!o['xml:lang'] || o['xml:lang'] === 'en' || o['xml:lang'] === 'fr');
+			// Filter
+			if(!o['xml:lang'] || o['xml:lang'] && (o['xml:lang'] === 'en' || o['xml:lang'] === 'fr')){
+				sList.push(o);
+				//o.flag = 'okay';
+				if(o.type === 'uri'){
+					o.name = o.value;
+				}
+				else{
+					o.name = "s"+sList.length;
+				}
+				s.size = 10;
 			}
-			else{
-				o.name = "s"+sList.length;
-			}
-			s.size = 10;
 		}
 		
 		var sc = false;
@@ -85,14 +90,18 @@ function parseJSON2RDF(jsonObj){
 			}
 		}
 		if(!sc){
-			sList.push(s);
-			if(s.type === 'uri'){
-				s.name = s.value;
+			// Filter
+			//console.log(s);
+			if(!s['xml:lang'] || s['xml:lang'] && (s['xml:lang'] === 'en' || s['xml:lang'] === 'fr')){
+				sList.push(s);
+				if(s.type === 'uri'){
+					s.name = s.value;
+				}
+				else{
+					s.name = "s"+sList.length;
+				}
+				s.size = 10;
 			}
-			else{
-				s.name = "s"+sList.length;
-			}
-			s.size = 10;
 		}
 	}
 
@@ -102,22 +111,38 @@ function parseJSON2RDF(jsonObj){
 		var o = bindings[i].o;
 		var s = bindings[i].s;
 		
+		var boolS = false;
 		for(var j=0; j<sList.length; j++){
 			if(sList[j].value === s.value){
 				s = sList[j];
+				boolS = true;
 				break;
 			}
 		}
+		if(!boolS){
+			bindings.splice(i,1);
+			i--;
+			continue;
+		}
+
+		var boolO = false;
 		for(var j=0; j<sList.length; j++){
 			if(sList[j].value === o.value){
 				o = sList[j];
+				boolO = true;
 				break;
 			}
+		}
+		if(!boolO){
+			bindings.splice(i,1);
+			i--;
+			continue;
 		}
 		
 		if(!s.imports){
 			s.imports = [];
 		}
+		
 		s.imports.push(o.name);
 	}
 	console.log('jsonObj :');
