@@ -56,6 +56,7 @@ function parseJSON2RDF(jsonObj){
 	for(var i=0; i<bindings.length;i++){
 		var o = bindings[i].o;
 		var s = bindings[i].s;
+		var p = bindings[i].p;
 		
 		s.size = 10;
 		o.size = 10;
@@ -78,7 +79,8 @@ function parseJSON2RDF(jsonObj){
 				else{
 					o.name = "s"+sList.length;
 				}
-				s.size = 10;
+				o.name = p.value.replace(/http:\/\/*\//','') + " - " + o.name;
+				o.size = 10;
 			}
 		}
 		
