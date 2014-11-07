@@ -79,7 +79,7 @@ function parseJSON2RDF(jsonObj){
 				else{
 					o.name = "s"+sList.length;
 				}
-				o.name = p.value.replace(/http:\/\/*\//','') + " - " + o.name;
+				o.name = p.value.replace(/http:\/\/*\//,'') + " - " + o.name;
 				o.size = 10;
 			}
 		}
