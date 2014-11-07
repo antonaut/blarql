@@ -214,7 +214,7 @@
             // On click on a node, open link and change color of the node
             function mouseclicked(d)
             {
-                window.open(d.name);
+                window.open(d.value);
                 console.log(d.depth);
             }
             function mouseouted(d)
