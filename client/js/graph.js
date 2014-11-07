@@ -215,7 +215,7 @@
             function mouseclicked(d)
             {
 				if(d.type === 'uri'){
-					window.open(d.value);
+					window.open(d.link);
 				}
                 console.log(d);
             }
