@@ -214,7 +214,9 @@
             // On click on a node, open link and change color of the node
             function mouseclicked(d)
             {
-                window.open(d.value);
+				if(d.type === 'uri'){
+					window.open(d.value);
+				}
                 console.log(d);
             }
             function mouseouted(d)

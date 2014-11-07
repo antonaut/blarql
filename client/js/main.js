@@ -72,9 +72,11 @@ function parseJSON2RDF(jsonObj){
 			// Filter
 			if(!o['xml:lang'] || o['xml:lang'] && (o['xml:lang'] === 'en' || o['xml:lang'] === 'fr')){
 				sList.push(o);
+				
 				//o.flag = 'okay';
 				if(o.type === 'uri'){
 					o.name = o.value;
+					o.link = o.value;
 				}
 				else{
 					o.name = "s"+sList.length;
@@ -98,6 +100,7 @@ function parseJSON2RDF(jsonObj){
 				sList.push(s);
 				if(s.type === 'uri'){
 					s.name = s.value;
+					s.link = s.value;
 				}
 				else{
 					s.name = "s"+sList.length;
