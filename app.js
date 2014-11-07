@@ -70,7 +70,7 @@ app.get('/blarql/:hash', function(req, res) {
 	var digest = req.params.hash;
 	console.log('Request for hash:' + digest);
 	var results = queryResults[digest];
-	console.log(queryResults);
+	//console.log(queryResults);
 	if (!results) {
 		res.status(404).send('Query result not found.');
 	}
