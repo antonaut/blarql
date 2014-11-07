@@ -215,7 +215,7 @@
             function mouseclicked(d)
             {
                 window.open(d.value);
-                console.log(d.depth);
+                console.log(d);
             }
             function mouseouted(d)
             {

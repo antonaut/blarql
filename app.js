@@ -12,7 +12,7 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 var queryResults = {};
 
 var performSPARQLQuery = function(query, hash) {
-	var endpoint = 'http://dbpedia.org/sparql';
+	var endpoint = 'http://live.dbpedia.org/sparql';
 	// Get the leaderName(s) of the given citys
 	// if you do not bind any city, it returns 10 random leaderNames
 	//	var query = "select distinct ?Concept where {[] a ?Concept} LIMIT 10";

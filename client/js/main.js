@@ -151,17 +151,18 @@ function parseJSON2RDF(jsonObj){
 	console.log(jsonObj);
 	return sList;
 }
-
+/*
 // Not working : an attempt to execute a DBPedia SPARQL request as a GET request
 function execSPARQL(request){
 	var url = "http://dbpedia.org/sparql";
+	//var url = "http://live.dbpedia.org/sparql";
 	var argAfter = "&format=application%2Fsparql-results%2Bjson&timeout=30000&debug=on";
 	var argBefore = "?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=";
 	var finalUrl = url + argBefore + encodeURIComponent(request).replace(/%20/g, '+') + argAfter;
 	console.log(finalUrl);
 	return finalUrl;
 }
-
+*/
 // Ask the nodejs server if the sparql request is processed
 function askForQueryResult(hash){
 
