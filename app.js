@@ -50,12 +50,21 @@ var performSPARQLQuery = function(query, hash) {
 		});
 };
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
+
 // cross-domain fix
-app.all('/', function(req, res, next) {
-      	res.header("Access-Control-Allow-Origin", "*");
-      	res.header("Access-Control-Allow-Headers", "X-Requested-With");
-	next();
-});
+//app.all('/', function(req, res, next) {
+//      	res.header("Access-Control-Allow-Origin", "*");
+//      	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//	next();
+//});
+app.use(allowCrossDomain);
 
 app.get('/blarql/:hash', function(req, res) {
 	var digest = req.params.hash;
@@ -81,10 +90,10 @@ app.post('/blarql', function(req, res) {
 	if (!queryResults[digest]) {
 		performSPARQLQuery(query, digest);
 	}
- 	
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-	res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+	    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
 
 	res.json({"query":req.body.query, "hash": digest});
 });
